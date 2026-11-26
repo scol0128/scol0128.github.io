@@ -91,8 +91,10 @@ function renderMap(items) {
   if (!focus.length) map.setView([37.53, 126.99], 11, { animate: false });
   if (focus.length) map.fitBounds(focus.map((i) => [i.lat, i.lon]), { padding: [30, 30], maxZoom: 15, animate: false });
   drawPins();
-  fill($('map-list'), core.sortItems(items.filter((i) => core.overlaps(i, today, today)), 'end'), '오늘 운영 중인 팝업이 없습니다.');
-  $('map-list').prepend(el('h2', { textContent: '오늘 운영 중 · 마감 빠른순' }));
+  // 오늘 운영 중인 곳이 없는 지역은 빈 칸 대신 예정 항목을 보여 준다.
+  const open = items.filter((i) => core.overlaps(i, today, today));
+  fill($('map-list'), core.sortItems(open.length ? open : items, 'end'));
+  $('map-list').prepend(el('h2', { textContent: open.length ? '오늘 운영 중 · 마감 빠른순' : '오늘 운영 중인 곳은 없어요 · 예정' }));
 }
 
 function renderMonth(items) {
