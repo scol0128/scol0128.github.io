@@ -1,0 +1,49 @@
+:root { --bg: #f5f5f2; --card: #fff; --ink: #16181d; --sub: #5d626c; --line: #e2e1dc; --accent: #d9480f; --ok: #1f6f50; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; word-break: keep-all; }
+[hidden] { display: none !important; }
+header { position: sticky; top: 0; z-index: 1000; background: var(--ink); color: #fff; padding: calc(env(safe-area-inset-top) + 10px) 14px 8px; }
+.title { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+h1 { font-size: 20px; margin: 0; }
+h2 { font-size: 15px; margin: 14px 0 8px; grid-column: 1 / -1; }
+h3 { font-size: 17px; margin: 6px 0 0; line-height: 1.35; }
+#summary { font-size: 13px; opacity: .75; }
+main { max-width: 960px; margin: 0 auto; padding: 0 14px calc(76px + env(safe-area-inset-bottom)); }
+.chips { display: flex; gap: 6px; overflow-x: auto; padding: 8px 0 2px; scrollbar-width: none; }
+button { font: inherit; cursor: pointer; }
+.chips button { flex: none; min-height: 36px; padding: 0 13px; border: 1px solid var(--line); border-radius: 18px; background: var(--card); color: var(--ink); }
+header .chips button { background: transparent; color: #fff; border-color: #4a4e58; }
+.chips button.on, header .chips button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+#map { height: 46vh; min-height: 280px; margin: 0 -14px; background: #dfe3e0; z-index: 0; }
+.pin b { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: #fff; border: 2px solid #fff; box-shadow: 0 2px 6px rgb(0 0 0 / .35); }
+.pin.approx b { background: #fff; color: var(--accent); border: 2px dashed var(--accent); }
+.note { margin: 8px 0 0; font-size: 13px; color: var(--sub); }
+.cards { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); margin-top: 10px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.card p { margin: 2px 0; overflow-wrap: anywhere; }
+.row { display: flex; gap: 8px; align-items: center; font-size: 12px; }
+.badge { padding: 2px 8px; border-radius: 6px; background: #e4efe9; color: var(--ok); font-weight: 700; }
+.badge.last { background: #fde8de; color: #a8370a; }
+.badge.soon { background: #e8eaf6; color: #333f8f; }
+.cat, .brand, .addr { color: var(--sub); font-size: 13px; }
+.addr:empty { display: none; }
+.period { font-weight: 700; }
+.links { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; color: var(--sub); }
+.links a { color: #1d4fd7; padding: 4px 0; }
+.empty { color: var(--sub); }
+.month-head { display: flex; justify-content: space-between; align-items: center; margin: 10px 0 6px; }
+.month-head button { width: 44px; height: 40px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); font-size: 20px; }
+.grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; }
+.dow { font-size: 12px; color: var(--sub); }
+.grid button { display: grid; align-content: center; min-height: 50px; padding: 2px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--ink); line-height: 1.2; }
+.grid button small { font-size: 11px; color: var(--accent); min-height: 13px; }
+.grid button.today { border-color: var(--ink); border-width: 2px; }
+.grid button.on { background: var(--ink); color: #fff; }
+.grid button:disabled { opacity: .35; cursor: default; }
+.stay { margin: 24px 0 0; padding: 12px 14px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
+.stay a { display: inline-block; padding: 4px 0; color: #1d4fd7; font-weight: 700; }
+.stay small { display: block; font-size: 12px; color: var(--sub); }
+footer { margin: 24px 0 0; font-size: 12px; color: var(--sub); }
+nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000; display: flex; background: var(--card); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
+nav a { flex: 1; text-align: center; padding: 15px 0; color: var(--sub); text-decoration: none; font-weight: 700; }
+nav a.on { color: var(--accent); box-shadow: inset 0 3px 0 var(--accent); }

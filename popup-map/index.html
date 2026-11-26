@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#16181d">
+  <title>서울·수도권 팝업스토어 지도와 일정 | 팝업 지도</title>
+  <meta name="description" content="진행·예정 팝업스토어와 연말 행사를 지도·일정·목록으로. 이번 주말에 갈 곳, 곧 끝나는 곳, 출처 기사 링크와 확인일까지.">
+  <link rel="canonical" href="https://scol0128.github.io/popup-map/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="팝업 지도 · 일정">
+  <meta property="og:description" content="이번 주말에 갈 팝업, 곧 끝나는 팝업. 모든 항목에 출처 링크와 확인일.">
+  <meta property="og:url" content="https://scol0128.github.io/popup-map/">
+  <meta property="og:image" content="https://scol0128.github.io/popup-map/icon-512.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="title"><h1>팝업 지도</h1><span id="summary"></span></div>
+    <div id="regions" class="chips" aria-label="지역"></div>
+  </header>
+
+  <main>
+    <section id="view-map" class="view">
+      <div id="map" role="region" aria-label="팝업 지도"></div>
+      <p id="map-note" class="note"></p>
+      <div id="map-list" class="cards"></div>
+    </section>
+
+    <section id="view-cal" class="view">
+      <div id="ranges" class="chips"></div>
+      <div id="month"></div>
+      <h2 id="cal-title"></h2>
+      <div id="cal-list" class="cards"></div>
+    </section>
+
+    <section id="view-list" class="view">
+      <div id="sorts" class="chips"></div>
+      <p id="list-note" class="note"></p>
+      <div id="list" class="cards"></div>
+    </section>
+
+    <aside class="stay" aria-label="제휴 링크">
+      <a href="https://kr.trip.com/hotels/list?city=274&amp;locale=ko-KR&amp;curr=KRW&amp;Allianceid=11326029&amp;SID=335828214&amp;trip_sub1=&amp;trip_sub3=D21579826" target="_blank" rel="sponsored noopener">서울 숙소 보기 (Trip.com)</a>
+      <small>제휴 링크입니다. 이 링크로 예약하면 운영자가 Trip.com에서 수수료를 받을 수 있습니다.</small>
+    </aside>
+
+    <footer>
+      기간은 기사 원문에 적힌 날짜만 실었습니다. 방문 전 공식 채널에서 다시 확인하세요.
+      좌표·주소: © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> 기여자.
+      <span id="built"></span>
+    </footer>
+  </main>
+
+  <nav>
+    <a href="#map">지도</a>
+    <a href="#cal">일정</a>
+    <a href="#list">목록</a>
+  </nav>
+
+  <script src="vendor/leaflet/leaflet.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

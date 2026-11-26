@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://scol0128.github.io/popup-map/sitemap.xml
