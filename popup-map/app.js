@@ -29,20 +29,25 @@ function card(i) {
   const km = state.here && i.lat ? ` · ${core.distanceKm(state.here, i).toFixed(1)}km` : '';
   const place = [i.venue, i.place_detail].filter(Boolean).join(' · ');
   const where = `https://map.naver.com/p/search/${encodeURIComponent(i.venue.replace(/\s*\(.*\)/, ''))}`;
-  return el('article', { className: 'card' },
-    el('div', { className: 'row' },
-      el('span', { className: `badge ${st.key}`, textContent: st.text }),
-      el('span', { className: 'cat', textContent: i.kind === '팝업' ? i.category : `${i.kind} · ${i.category}` })),
-    el('h3', { textContent: i.name }),
-    el('p', { className: 'brand', textContent: i.brand }),
-    el('p', { className: 'period', textContent: period(i) }),
-    el('p', { textContent: place + km }),
-    el('p', { className: 'addr', textContent: i.address || (i.lat ? (i.approx ? '지도 위치는 대략(역·동네 중심)' : '') : '지도 좌표 미확인') }),
-    el('p', { className: 'links' }, link(i.source_url, `출처 ${i.source_name.replace(/^(www|m)\./, '')}`), link(where, '네이버 지도 검색'),
-      el('span', { textContent: `확인 ${md(i.checked)}` })));
+  const [word, count] = st.text.startsWith('오늘') ? ['마감', '오늘'] : st.text.split(' ');
+  const go = link(where, '지도에서 보기');
+  go.className = 'go';
+  return el('article', { className: `card ${st.key}` },
+    el('div', { className: 'stub', ariaLabel: st.text },
+      el('b', { className: count ? (/^D-/.test(count) ? '' : 'ko') : 'ko', textContent: count || word }),
+      el('span', { textContent: count ? word : '' })),
+    el('div', { className: 'body' },
+      el('p', { className: 'cat', textContent: i.kind === '팝업' ? i.category : `${i.kind} · ${i.category}` }),
+      el('h3', { textContent: i.name }),
+      el('p', { className: 'brand', textContent: i.brand }),
+      el('p', { className: 'period', textContent: period(i) }),
+      el('p', { className: 'place', textContent: place + km }),
+      el('p', { className: 'addr', textContent: i.address || (i.lat ? (i.approx ? '지도 위치는 대략(역·동네 중심)' : '') : '지도 좌표 미확인') }),
+      el('p', { className: 'links' }, go, link(i.source_url, `출처 ${i.source_name.replace(/^(www|m)\./, '')}`),
+        el('span', { textContent: `${md(i.checked)} 확인` }))));
 }
 
-function fill(node, items, empty = '해당하는 팝업이 없습니다.') {
+function fill(node, items, empty = '이 조건에 맞는 팝업이 아직 없어요. 지역을 전체로 바꿔 보세요.') {
   node.replaceChildren(...(items.length ? items.map(card) : [el('p', { className: 'empty', textContent: empty })]));
 }
 
@@ -74,10 +79,11 @@ function drawPins() {
 function renderMap(items) {
   const placed = items.filter((i) => i.lat);
   const missing = items.length - placed.length;
-  $('map-note').textContent = missing ? `좌표를 확인하지 못한 ${missing}건은 지도에 없습니다(목록·일정에는 있음).` : '';
+  $('map-note').textContent = missing ? `${missing}곳은 위치를 확인하지 못해 지도에 없어요. 목록과 일정에서는 볼 수 있어요.` : '';
   if (!window.L) { $('map').textContent = '지도를 불러오지 못했습니다.'; return; }
   if (!map) {
-    map = L.map('map', { zoomControl: true }).setView([37.53, 126.99], 11);
+    map = L.map('map', { zoomControl: false }).setView([37.53, 126.99], 11);
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19, attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(map);
@@ -94,7 +100,7 @@ function renderMap(items) {
   // 오늘 운영 중인 곳이 없는 지역은 빈 칸 대신 예정 항목을 보여 준다.
   const open = items.filter((i) => core.overlaps(i, today, today));
   fill($('map-list'), core.sortItems(open.length ? open : items, 'end'));
-  $('map-list').prepend(el('h2', { textContent: open.length ? '오늘 운영 중 · 마감 빠른순' : '오늘 운영 중인 곳은 없어요 · 예정' }));
+  $('map-list').prepend(el('h2', { textContent: open.length ? '오늘 갈 수 있는 곳' : '곧 열리는 곳' }));
 }
 
 function renderMonth(items) {
@@ -175,7 +181,7 @@ function render() {
   const regions = ['전체', ...[...new Set(state.items.map((i) => i.region))].sort((a, b) => count(b) - count(a))];
   chips($('regions'), regions.map((r) => [r, r]), state.region, (region) => { state = { ...state, region }; render(); });
   const items = visible();
-  $('summary').textContent = `${md(today)} 기준 ${items.length}건`;
+  $('summary').textContent = `${items.length}곳, ${md(today)} 기준`;
   ({ map: renderMap, cal: renderCalendar, list: renderList })[view](items);
 }
 
